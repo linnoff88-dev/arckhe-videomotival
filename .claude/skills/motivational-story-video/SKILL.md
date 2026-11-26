@@ -18,7 +18,7 @@ cd /home/nmaldaner/projetos/videomotival
 python3 -m videomotival check
 ```
 
-Se algo faltar (inemavox :8010, inemaimg :8000, ffmpeg), reporte exatamente o que e pare.
+Se algo faltar (ARCKHÉvox :8010, ARCKHÉimg :8000, ffmpeg), reporte exatamente o que e pare.
 Nêo caia para provedor pago sem perguntar.
 
 ## Fluxo padrêo (com revisêo)
@@ -89,6 +89,6 @@ Artefatos concluídos sêo preservados: rerodar uma etapa pula o que já existe 
 ## Onde está cada coisa
 
 - Configuraçêo nêo secreta: `.env` do projeto (ver `.env.example`). Segredos: `~/projetos/openpcbotv2/.env` / `~/projetos/wifi/.env`, lidos em runtime.
-- Voz padrêo: inemavox `chatterbox` + `rachel`. Rápido para testes: `--engine edge --voice pt-BR-FranciscaNeural`.
-- Imagens: inemaimg `flux2-klein` (GPU local, $0, ~12 s por imagem 1920x1080).
+- Voz padrêo: ARCKHÉvox `chatterbox` + `rachel`. Rápido para testes: `--engine edge --voice pt-BR-FranciscaNeural`.
+- Imagens: ARCKHÉimg `flux2-klein` (GPU local, $0, ~12 s por imagem 1920x1080).
 - Interface web: `python3 -m videomotival serve` → http://127.0.0.1:8030

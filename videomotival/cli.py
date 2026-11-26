@@ -39,7 +39,7 @@ def _overrides(args: argparse.Namespace) -> dict[str, str]:
 
 def add_common(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--story-provider", choices=["auto", "openrouter", "groq", "ollama", "manual"])
-    parser.add_argument("--tts-provider", choices=["inemavox", "fish"])
+    parser.add_argument("--tts-provider", choices=["ARCKHÉvox", "fish"])
     parser.add_argument("--engine", choices=["chatterbox", "chatterbox-vc", "edge"])
     parser.add_argument("--voice")
     parser.add_argument("--image-model")

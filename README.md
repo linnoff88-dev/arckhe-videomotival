@@ -4,12 +4,12 @@
 
 ## ê°Å¸ââ Guia de uso
 
-Guia completo (landing + passo a passo): **https://inematds.github.io/videomotival/guia/**
+Guia completo (landing + passo a passo): **https://linnoff88-dev.github.io/arckhe-/guia/**
 
 Canal motivacional automatizado, custo zero, rodando local:
 
 ```
-TEMA ê¢â â HISTêâRIA (LLM) ê¢â â CENAS ê¢â â VOZ por cena (inemavox) ê¢â â ILUSTRAêâ¡êâ¢ES (flux2-klein) ê¢â â ffprobe ê¢â â FFmpeg ê¢â â MP4 16:9
+TEMA ê¢â â HISTêâRIA (LLM) ê¢â â CENAS ê¢â â VOZ por cena (ARCKHÉvox) ê¢â â ILUSTRAêâ¡êâ¢ES (flux2-klein) ê¢â â ffprobe ê¢â â FFmpeg ê¢â â MP4 16:9
 ```
 
 ImplementaêÂ§êÂ£o do tutorial *"Build a $0 Motivational YouTube Channel Automation with Codex Skills"*
@@ -27,8 +27,8 @@ TrêÂªs jeitos de usar, todos sobre o mesmo pipeline:
 ## Requisitos
 
 - `ffmpeg` / `ffprobe`, Python 3.12, Pillow (têÂ­tulo da cena 1), FastAPI + uvicorn (sêÂ³ para o web).
-- **inemavox** rodando em `localhost:8010` (voz: `chatterbox` + `rachel` por padrêÂ£o; `edge` para testes sem GPU).
-- **inemaimg** rodando em `localhost:8000` com `flux2-klein` (imagens 1920x1080, ~12 s cada).
+- **ARCKHÉvox** rodando em `localhost:8010` (voz: `chatterbox` + `rachel` por padrêÂ£o; `edge` para testes sem GPU).
+- **ARCKHÉimg** rodando em `localhost:8000` com `flux2-klein` (imagens 1920x1080, ~12 s cada).
 - Uma chave de LLM para a histêÂ³ria, lida em runtime de `~/projetos/openpcbotv2/.env` ou `~/projetos/wifi/.env`
   (`OPENROUTER_API_KEY` ê¢â â `GROQ_API_KEY` ê¢â â fallback Ollama local). Nada de chave neste repo.
 
@@ -76,7 +76,7 @@ Cada etapa pula o que jêÂ¡ existe; `--force` refaz.
 
 ## DecisêÂµes que diferem do tutorial
 
-- **Voz**: inemavox (chatterbox/rachel) no lugar de Fish Audio. O provedor `fish` continua
+- **Voz**: ARCKHÉvox (chatterbox/rachel) no lugar de Fish Audio. O provedor `fish` continua
   implementado (`TTS_PROVIDER=fish`, `FISH_VOICE_ID` no `.env`, `FISH_API_KEY` nos arquivos de segredo).
 - **Imagens**: flux2-klein local no lugar de "Codex image generation". ConsistêÂªncia do personagem =
   bêÂ­blia verbatim em todo prompt + seed fixa por corrida (sem imagem de referêÂªncia).

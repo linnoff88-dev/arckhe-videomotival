@@ -4,12 +4,12 @@
 
 ## 📖 Guía de uso
 
-Guía completa (landing + paso a paso): **https://inematds.github.io/videomotival/guia/es/**
+Guía completa (landing + paso a paso): **https://linnoff88-dev.github.io/arckhe-/guia/es/**
 
 Canal motivacional automatizado, con costo cero y ejecución local:
 
 ```
-TEMA → HISTORIA (LLM) → ESCENAS → VOZ por escena (inemavox) → ILUSTRACIONES (flux2-klein) → ffprobe → FFmpeg → MP4 16:9
+TEMA → HISTORIA (LLM) → ESCENAS → VOZ por escena (ARCKHÉvox) → ILUSTRACIONES (flux2-klein) → ffprobe → FFmpeg → MP4 16:9
 ```
 
 Implementación del tutorial *"Build a $0 Motivational YouTube Channel Automation with Codex Skills"*
@@ -27,8 +27,8 @@ Tres formas de usarlo, todas sobre el mismo pipeline:
 ## Requisitos
 
 - `ffmpeg` / `ffprobe`, Python 3.12, Pillow (título de la escena 1), FastAPI + uvicorn (solo para la web).
-- **inemavox** ejecutándose en `localhost:8010` (voz: `chatterbox` + `rachel` por defecto; `edge` para pruebas sin GPU).
-- **inemaimg** ejecutándose en `localhost:8000` con `flux2-klein` (imágenes 1920x1080, ~12 s cada una).
+- **ARCKHÉvox** ejecutándose en `localhost:8010` (voz: `chatterbox` + `rachel` por defecto; `edge` para pruebas sin GPU).
+- **ARCKHÉimg** ejecutándose en `localhost:8000` con `flux2-klein` (imágenes 1920x1080, ~12 s cada una).
 - Una clave de LLM para la historia, leída en tiempo de ejecución desde `~/projetos/openpcbotv2/.env` o `~/projetos/wifi/.env`
   (`OPENROUTER_API_KEY` → `GROQ_API_KEY` → alternativa Ollama local). No hay claves en este repo.
 
@@ -76,7 +76,7 @@ Cada etapa omite lo que ya existe; `--force` lo rehace.
 
 ## Decisiones que difieren del tutorial
 
-- **Voz**: inemavox (chatterbox/rachel) en lugar de Fish Audio. El proveedor `fish` sigue
+- **Voz**: ARCKHÉvox (chatterbox/rachel) en lugar de Fish Audio. El proveedor `fish` sigue
   implementado (`TTS_PROVIDER=fish`, `FISH_VOICE_ID` en `.env`, `FISH_API_KEY` en los archivos de secretos).
 - **Imágenes**: flux2-klein local en lugar de "Codex image generation". La consistencia del personaje =
   biblia textual idéntica en cada prompt + seed fija por ejecución (sin imagen de referencia).

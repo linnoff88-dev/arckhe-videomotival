@@ -4,12 +4,12 @@
 
 ## 📖 User Guide
 
-Complete guide (landing page + step-by-step instructions): **https://inematds.github.io/videomotival/guia/en/**
+Complete guide (landing page + step-by-step instructions): **https://linnoff88-dev.github.io/arckhe-/guia/en/**
 
 Automated motivational channel, zero cost, running locally:
 
 ```
-TOPIC → STORY (LLM) → SCENES → VOICE per scene (inemavox) → ILLUSTRATIONS (flux2-klein) → ffprobe → FFmpeg → MP4 16:9
+TOPIC → STORY (LLM) → SCENES → VOICE per scene (ARCKHÉvox) → ILLUSTRATIONS (flux2-klein) → ffprobe → FFmpeg → MP4 16:9
 ```
 
 Implementation of the tutorial *"Build a $0 Motivational YouTube Channel Automation with Codex Skills"*
@@ -27,8 +27,8 @@ Three ways to use it, all on the same pipeline:
 ## Requirements
 
 - `ffmpeg` / `ffprobe`, Python 3.12, Pillow (scene 1 title), FastAPI + uvicorn (web only).
-- **inemavox** running at `localhost:8010` (voice: `chatterbox` + `rachel` by default; `edge` for tests without a GPU).
-- **inemaimg** running at `localhost:8000` with `flux2-klein` (1920x1080 images, ~12 s each).
+- **ARCKHÉvox** running at `localhost:8010` (voice: `chatterbox` + `rachel` by default; `edge` for tests without a GPU).
+- **ARCKHÉimg** running at `localhost:8000` with `flux2-klein` (1920x1080 images, ~12 s each).
 - An LLM key for the story, read at runtime from `~/projetos/openpcbotv2/.env` or `~/projetos/wifi/.env`
   (`OPENROUTER_API_KEY` → `GROQ_API_KEY` → local Ollama fallback). No keys in this repo.
 
@@ -76,7 +76,7 @@ Each step skips what already exists; `--force` reruns it.
 
 ## Decisions That Differ from the Tutorial
 
-- **Voice**: inemavox (chatterbox/rachel) instead of Fish Audio. The `fish` provider remains
+- **Voice**: ARCKHÉvox (chatterbox/rachel) instead of Fish Audio. The `fish` provider remains
   implemented (`TTS_PROVIDER=fish`, `FISH_VOICE_ID` in `.env`, `FISH_API_KEY` in the secret files).
 - **Images**: local flux2-klein instead of "Codex image generation." Character consistency =
   verbatim bible in every prompt + fixed seed per run (no reference image).

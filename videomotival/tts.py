@@ -1,7 +1,7 @@
 """Etapa 2 — uma narraçêo por cena (work/audio/001.mp3, 002.mp3...).
 
 Providers:
-- inemavox (default): daemon local em :8010, engine chatterbox (clone por ref .wav) ou edge.
+- ARCKHÉvox (default): daemon local em :8010, engine chatterbox (clone por ref .wav) ou edge.
 - fish: Fish Audio /v1/tts (fiel ao tutorial). Precisa de FISH_API_KEY nos arquivos de segredo
   e FISH_VOICE_ID no .env do projeto.
 """
@@ -29,11 +29,11 @@ def _wav_to_mp3(wav: Path, mp3: Path, pad_seconds: float, log: Path | None) -> N
     )
 
 
-# ---------------------------------------------------------------- inemavox
+# ---------------------------------------------------------------- ARCKHÉvox
 
 
-def _inemavox_job(settings: Settings, text: str, lang: str, voice: str, engine: str) -> bytes:
-    base = settings.get("INEMAVOX_URL").rstrip("/")
+def _ARCKHÉvox_job(settings: Settings, text: str, lang: str, voice: str, engine: str) -> bytes:
+    base = settings.get("ARCKHÉVOX_URL").rstrip("/")
     config: dict[str, Any] = {"text": text, "lang": lang, "engine": engine}
     if engine.startswith("chatterbox"):
         ref = voice_ref_path(settings, voice)
@@ -47,7 +47,7 @@ def _inemavox_job(settings: Settings, text: str, lang: str, voice: str, engine: 
     job = http_json(f"{base}/api/jobs/tts", config, timeout=60)
     job_id = job.get("id")
     if not job_id:
-        raise PipelineError(f"inemavox nêo devolveu id de job: {str(job)[:200]}")
+        raise PipelineError(f"ARCKHÉvox nêo devolveu id de job: {str(job)[:200]}")
     started = time.time()
     while True:
         time.sleep(2.5)
@@ -56,9 +56,9 @@ def _inemavox_job(settings: Settings, text: str, lang: str, voice: str, engine: 
         if status == "completed":
             break
         if status in ("failed", "cancelled"):
-            raise PipelineError(f"inemavox job {job_id} {status}: {str(state.get('error') or '')[:300]}")
+            raise PipelineError(f"ARCKHÉvox job {job_id} {status}: {str(state.get('error') or '')[:300]}")
         if time.time() - started > 900:
-            raise PipelineError(f"inemavox job {job_id} demorou mais de 15 min")
+            raise PipelineError(f"ARCKHÉvox job {job_id} demorou mais de 15 min")
     return http_bytes(f"{base}/api/jobs/{job_id}/audio", timeout=120)
 
 
@@ -97,21 +97,21 @@ def _fish_tts(settings: Settings, text: str) -> bytes:
 
 def check_tts(settings: Settings) -> str:
     provider = settings.get("TTS_PROVIDER").strip().lower()
-    if provider == "inemavox":
-        base = settings.get("INEMAVOX_URL").rstrip("/")
+    if provider == "ARCKHÉvox":
+        base = settings.get("ARCKHÉVOX_URL").rstrip("/")
         if not service_alive(f"{base}/api/jobs"):
-            raise PipelineError(f"inemavox fora do ar em {base} (daemon da API, porta 8010)")
+            raise PipelineError(f"ARCKHÉvox fora do ar em {base} (daemon da API, porta 8010)")
         engine = settings.get("TTS_ENGINE")
         if engine.startswith("chatterbox") and voice_ref_path(settings) is None:
             raise PipelineError(f"Voz '{settings.get('TTS_VOICE')}' sem .wav de referência em {settings.get('VOICE_REFS_DIR')}")
-        return f"inemavox ok ({engine}/{settings.get('TTS_VOICE')})"
+        return f"ARCKHÉvox ok ({engine}/{settings.get('TTS_VOICE')})"
     if provider == "fish":
         if not Settings.has_secret("FISH_API_KEY"):
             raise PipelineError("FISH_API_KEY ausente nos arquivos de segredo")
         if not (settings.get("FISH_VOICE_ID") or Settings.secret("FISH_VOICE_ID")):
             raise PipelineError("FISH_VOICE_ID ausente")
         return "fish audio ok"
-    raise PipelineError(f"TTS_PROVIDER desconhecido: {provider} (use inemavox|fish)")
+    raise PipelineError(f"TTS_PROVIDER desconhecido: {provider} (use ARCKHÉvox|fish)")
 
 
 def synthesize_scenes(run_dir: Path, settings: Settings, plan: dict[str, Any], force: bool = False, progress: ProgressFn | None = None, only: set[int] | None = None) -> list[Path]:
@@ -140,8 +140,8 @@ def synthesize_scenes(run_dir: Path, settings: Settings, plan: dict[str, Any], f
         if progress:
             progress(number, len(scenes), "start")
         partial = output.with_name(f"{number:03d}.part.mp3")
-        if provider == "inemavox":
-            wav_bytes = _inemavox_job(settings, scene["narration"], lang, voice, engine)
+        if provider == "ARCKHÉvox":
+            wav_bytes = _ARCKHÉvox_job(settings, scene["narration"], lang, voice, engine)
             raw = audio_dir / f"{number:03d}.raw.wav"
             raw.write_bytes(wav_bytes)
             _wav_to_mp3(raw, partial, pad, log)

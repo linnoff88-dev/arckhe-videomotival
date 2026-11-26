@@ -48,17 +48,17 @@ DEFAULTS: dict[str, Any] = {
     "OLLAMA_URL": "http://localhost:11434",
     "OLLAMA_MODEL": "qwen3.8:27b",
     # voz
-    "TTS_PROVIDER": "inemavox",  # inemavox | fish
-    "TTS_ENGINE": "chatterbox",  # chatterbox | chatterbox-vc | edge (só inemavox)
+    "TTS_PROVIDER": "ARCKHÉvox",  # ARCKHÉvox | fish
+    "TTS_ENGINE": "chatterbox",  # chatterbox | chatterbox-vc | edge (só ARCKHÉvox)
     "TTS_VOICE": "rachel",  # nome da ref em VOICE_REFS_DIR (chatterbox) ou voz edge (pt-BR-FranciscaNeural)
     "VOICE_REFS_DIR": str(HOME / "projetos" / "timesmkt3" / "media" / "voice-refs"),
-    "INEMAVOX_URL": "http://localhost:8010",
+    "ARCKHÉVOX_URL": "http://localhost:8010",
     "AUDIO_PAD_SECONDS": "0.45",  # silêncio no fim de cada cena (respiro entre cortes)
     "FISH_MODEL": "s2-pro",
     "FISH_VOICE_ID": "",
     # imagens
-    "IMAGE_PROVIDER": "inemaimg",
-    "INEMAIMG_URL": "http://localhost:8000",
+    "IMAGE_PROVIDER": "ARCKHÉimg",
+    "ARCKHÉIMG_URL": "http://localhost:8000",
     "IMAGE_MODEL": "flux2-klein",
     "IMAGE_STEPS": "4",
     "IMAGE_WIDTH": "1920",

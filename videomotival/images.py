@@ -1,6 +1,6 @@
 """Etapa 3 — uma ilustraçêo 16:9 por cena (work/images/001.png...).
 
-Provider: inemaimg (flux2-klein na GPU local, :8000). Consistência do personagem =
+Provider: ARCKHÉimg (flux2-klein na GPU local, :8000). Consistência do personagem =
 bíblia verbatim em todo prompt + seed fixa da corrida. Cenas ruins: `regen` com outra seed.
 """
 
@@ -26,20 +26,20 @@ def _png_size(data: bytes) -> tuple[int, int]:
 
 def check_images(settings: Settings) -> str:
     provider = settings.get("IMAGE_PROVIDER").strip().lower()
-    if provider != "inemaimg":
-        raise PipelineError(f"IMAGE_PROVIDER desconhecido: {provider} (use inemaimg)")
-    base = settings.get("INEMAIMG_URL").rstrip("/")
+    if provider != "ARCKHÉimg":
+        raise PipelineError(f"IMAGE_PROVIDER desconhecido: {provider} (use ARCKHÉimg)")
+    base = settings.get("ARCKHÉIMG_URL").rstrip("/")
     if not service_alive(f"{base}/health"):
-        raise PipelineError(f"inemaimg fora do ar em {base} — suba com docker-compose em ~/projetos/inemaimg")
+        raise PipelineError(f"ARCKHÉimg fora do ar em {base} — suba com docker-compose em ~/projetos/ARCKHÉimg")
     health = http_json(f"{base}/health", timeout=10, retries=1)
     loaded = health.get("loaded_model")
     wanted = settings.get("IMAGE_MODEL")
     note = "" if loaded == wanted else f" (carregado: {loaded}; pedir {wanted} recarrega pesos)"
-    return f"inemaimg ok {wanted}{note}"
+    return f"ARCKHÉimg ok {wanted}{note}"
 
 
 def generate_image(settings: Settings, prompt: str, seed: int) -> bytes:
-    base = settings.get("INEMAIMG_URL").rstrip("/")
+    base = settings.get("ARCKHÉIMG_URL").rstrip("/")
     body = {
         "model": settings.get("IMAGE_MODEL"),
         "prompt": prompt,
@@ -51,7 +51,7 @@ def generate_image(settings: Settings, prompt: str, seed: int) -> bytes:
     data = http_json(f"{base}/generate", body, timeout=900, retries=3)
     b64 = data.get("image")
     if not isinstance(b64, str) or len(b64) < 100:
-        raise PipelineError(f"inemaimg respondeu sem o campo 'image'. Chaves: {list(data.keys())}")
+        raise PipelineError(f"ARCKHÉimg respondeu sem o campo 'image'. Chaves: {list(data.keys())}")
     if b64.startswith("data:"):
         b64 = b64.split(",", 1)[1]
     png = base64.b64decode(b64)
