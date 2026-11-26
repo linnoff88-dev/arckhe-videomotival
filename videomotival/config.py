@@ -1,9 +1,9 @@
-"""Configuração e segredos.
+"""Configuraçêo e segredos.
 
 Regras:
-- Configuração NÃO secreta vive em `<projeto>/.env` (providers, voz, idioma, urls).
-- Segredos (GROQ_API_KEY, OPENROUTER_API_KEY, FISH_API_KEY...) são lidos em runtime de
-  ~/projetos/openpcbotv2/.env e ~/projetos/wifi/.env (regra global do usuário). Nunca são
+- Configuraçêo NêO secreta vive em `<projeto>/.env` (providers, voz, idioma, urls).
+- Segredos (GROQ_API_KEY, OPENROUTER_API_KEY, FISH_API_KEY...) sêo lidos em runtime de
+  ~/projetos/openpcbotv2/.env e ~/projetos/wifi/.env (regra global do usuário). Nunca sêo
   copiados nem impressos.
 - Variáveis de ambiente do processo vencem os arquivos.
 """
@@ -64,7 +64,7 @@ DEFAULTS: dict[str, Any] = {
     "IMAGE_WIDTH": "1920",
     "IMAGE_HEIGHT": "1080",
     # render
-    "TITLE_OVERLAY": "1",  # 1 = grava o título na cena 1 via ffmpeg drawtext (texto exato, sem alucinação)
+    "TITLE_OVERLAY": "1",  # 1 = grava o título na cena 1 via ffmpeg drawtext (texto exato, sem alucinaçêo)
     "TITLE_FONT": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
     "DURATION_GATE": "warn",  # warn | strict (strict = recusa renderizar fora da tolerância, como no tutorial)
     "FPS": "30",
@@ -92,7 +92,7 @@ def load_env_file(path: Path) -> dict[str, str]:
 
 
 class Settings:
-    """Snapshot de configuração. `get()` nunca devolve segredos; use `secret()`."""
+    """Snapshot de configuraçêo. `get()` nunca devolve segredos; use `secret()`."""
 
     def __init__(self, overrides: dict[str, Any] | None = None):
         self._values: dict[str, str] = dict(DEFAULTS)

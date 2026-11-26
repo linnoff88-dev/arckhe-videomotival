@@ -53,7 +53,7 @@ def slugify(value: str) -> str:
 def require_binary(name: str) -> str:
     path = shutil.which(name)
     if not path:
-        raise PipelineError(f"Executável obrigatório não encontrado no PATH: {name}")
+        raise PipelineError(f"Executável obrigatório nêo encontrado no PATH: {name}")
     return path
 
 
@@ -128,9 +128,9 @@ def probe_duration(path: Path) -> float:
     try:
         duration = float(result.stdout.strip())
     except ValueError as exc:
-        raise PipelineError(f"Não consegui ler a duração de {path}") from exc
+        raise PipelineError(f"Nêo consegui ler a duraçêo de {path}") from exc
     if duration <= 0:
-        raise PipelineError(f"Duração não positiva em {path}")
+        raise PipelineError(f"Duraçêo nêo positiva em {path}")
     return duration
 
 
@@ -138,7 +138,7 @@ def run_process(command: list[str], label: str, log: Path | None = None) -> None
     try:
         result = subprocess.run(command, check=False, capture_output=True, text=True)
     except FileNotFoundError as exc:
-        raise PipelineError(f"{label}: executável não encontrado ({command[0]})") from exc
+        raise PipelineError(f"{label}: executável nêo encontrado ({command[0]})") from exc
     if log is not None:
         with log.open("a", encoding="utf-8") as handle:
             handle.write(f"\n$ {' '.join(command)}\n{result.stdout}{result.stderr}")
@@ -157,7 +157,7 @@ def extract_json_object(text: str) -> dict[str, Any]:
     decoder = json.JSONDecoder()
     positions = [i for i, ch in enumerate(text) if ch == "{"][:40]
     if not positions:
-        raise PipelineError("A resposta do modelo não contém um objeto JSON")
+        raise PipelineError("A resposta do modelo nêo contém um objeto JSON")
     fallback: Any = None
     for start in positions:
         candidate = text[start:]
@@ -174,5 +174,5 @@ def extract_json_object(text: str) -> dict[str, Any]:
         raise PipelineError("JSON do modelo inválido (nenhum objeto decodificável na resposta)")
     data = fallback
     if not isinstance(data, dict):
-        raise PipelineError("O modelo devolveu JSON que não é um objeto")
+        raise PipelineError("O modelo devolveu JSON que nêo é um objeto")
     return data

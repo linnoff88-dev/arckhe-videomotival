@@ -1,5 +1,5 @@
-"""Orquestração de uma corrida (run). Estado persistido em metadata.json — o web e o CLI
-leem e escrevem no disco, então reiniciar o servidor não perde nada.
+"""Orquestraçêo de uma corrida (run). Estado persistido em metadata.json — o web e o CLI
+leem e escrevem no disco, entêo reiniciar o servidor nêo perde nada.
 
 Etapas: plan → tts → images → render (probe + cenas + montagem).
 Status: created | planning | review | tts | images | render | done | failed
@@ -86,10 +86,10 @@ def resolve_run(settings: Settings, run: str) -> Path:
     candidate = settings.output_root / run
     if (candidate / "metadata.json").is_file():
         return candidate.resolve()
-    raise PipelineError(f"Corrida não encontrada: {run}")
+    raise PipelineError(f"Corrida nêo encontrada: {run}")
 
 
-# ---------------------------------------------------------------- criação
+# ---------------------------------------------------------------- criaçêo
 
 
 def create_run(settings: Settings, topic: str, duration_seconds: int, lang: str | None = None, overrides: dict[str, Any] | None = None, run_id: str | None = None, seed: int | None = None) -> Path:
@@ -97,7 +97,7 @@ def create_run(settings: Settings, topic: str, duration_seconds: int, lang: str 
     if not topic:
         raise PipelineError("Informe um tema")
     if duration_seconds < 15:
-        raise PipelineError("Duração alvo mínima: 15 segundos")
+        raise PipelineError("Duraçêo alvo mínima: 15 segundos")
     stamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S")
     run_id = run_id or f"{stamp}-{slugify(topic)}"
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", run_id):
@@ -208,8 +208,8 @@ def save_plan(run_dir: Path, plan: dict[str, Any]) -> dict[str, Any]:
     for index, scene in enumerate(plan["scenes"], start=1):
         scene["scene_number"] = index
     pipeline.validate_plan_data(plan)
-    # Diff contra o último plano MATERIALIZADO (scenes.applied.json), não contra scenes.json —
-    # assim edições feitas à mão no próprio scenes.json também são detectadas.
+    # Diff contra o último plano MATERIALIZADO (scenes.applied.json), nêo contra scenes.json —
+    # assim edições feitas à mêo no próprio scenes.json também sêo detectadas.
     previous: dict[str, Any] = {}
     try:
         previous = load_json(applied_plan_path(run_dir))
@@ -310,7 +310,7 @@ def run_stages(run_dir: Path, stages: list[str], force: bool = False, music: str
     """Executa etapas em sequência; falha vira status=failed com a mensagem em metadata.json."""
     lock = run_lock(run_dir.name)
     if not lock.acquire(blocking=False):
-        raise PipelineError("Essa corrida já está em execução")
+        raise PipelineError("Essa corrida já está em execuçêo")
     try:
         for stage in stages:
             if stage == "plan":

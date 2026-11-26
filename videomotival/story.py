@@ -2,7 +2,7 @@
 
 Providers: openrouter | groq | ollama | manual (auto = tenta nessa ordem).
 O LLM só escreve a parte criativa. Estilo visual, bíblia do personagem e o bloco
-"sem texto" são anexados em código para não depender do modelo obedecer.
+"sem texto" sêo anexados em código para nêo depender do modelo obedecer.
 """
 
 from __future__ import annotations
@@ -145,15 +145,15 @@ def generate_raw(settings: Settings, system: str, user: str) -> tuple[str, str]:
 def finalize_plan(raw: dict[str, Any], topic: str, duration_seconds: int, lang: str, provider: str, image_seed: int) -> dict[str, Any]:
     scenes_in = raw.get("scenes")
     if not isinstance(scenes_in, list) or not scenes_in:
-        raise PipelineError("O modelo não devolveu a lista `scenes`")
+        raise PipelineError("O modelo nêo devolveu a lista `scenes`")
     bible = str(raw.get("character_bible", "")).strip()
     if not bible:
-        raise PipelineError("O modelo não devolveu `character_bible`")
+        raise PipelineError("O modelo nêo devolveu `character_bible`")
     title = str(raw.get("title", "")).strip() or topic
     scenes: list[dict[str, Any]] = []
     for index, item in enumerate(scenes_in, start=1):
         if not isinstance(item, dict):
-            raise PipelineError(f"Cena {index} não é um objeto")
+            raise PipelineError(f"Cena {index} nêo é um objeto")
         narration = str(item.get("narration", "")).strip()
         composition = str(item.get("image_prompt", "")).strip()
         if not narration or not composition:
@@ -190,7 +190,7 @@ def compose_image_prompt(composition: str, bible: str, scene_number: int) -> str
 
 
 def refresh_image_prompts(plan: dict[str, Any]) -> dict[str, Any]:
-    """Recompõe image_prompt a partir de composition + bíblia (após edição humana)."""
+    """Recompõe image_prompt a partir de composition + bíblia (após ediçêo humana)."""
     bible = plan["character_bible"]
     for scene in plan["scenes"]:
         composition = scene.get("composition") or scene.get("image_prompt", "")
@@ -206,9 +206,9 @@ def write_story_files(run_dir: Path, plan: dict[str, Any]) -> None:
     write_json(work / "scenes.json", plan)
     transcript = "\n\n".join(scene["narration"] for scene in plan["scenes"])
     (work / "transcript.md").write_text(f"# {plan['title']}\n\n{transcript}\n", encoding="utf-8")
-    lines = [f"# {plan['title']}", "", f"Tema: {plan['topic']}", f"Duração alvo: {plan['target_duration_seconds']} s", "", "## Personagem", "", plan["character_bible"], ""]
+    lines = [f"# {plan['title']}", "", f"Tema: {plan['topic']}", f"Duraçêo alvo: {plan['target_duration_seconds']} s", "", "## Personagem", "", plan["character_bible"], ""]
     for scene in plan["scenes"]:
-        lines += [f"## Cena {scene['scene_number']}", "", f"**Narração:** {scene['narration']}", "", f"**Visual:** {scene['visual_description']}", ""]
+        lines += [f"## Cena {scene['scene_number']}", "", f"**Narraçêo:** {scene['narration']}", "", f"**Visual:** {scene['visual_description']}", ""]
     (work / "story.md").write_text("\n".join(lines), encoding="utf-8")
 
 
@@ -230,7 +230,7 @@ def save_calibration(settings: Settings, words: int, seconds: float, lang: str, 
     path = settings.output_root / "calibration.json"
     previous = load_calibration(settings)
     measured = words / seconds * 60.0
-    # média móvel suave para não oscilar com uma corrida atípica
+    # média móvel suave para nêo oscilar com uma corrida atípica
     blended = round(previous * 0.5 + measured * 0.5, 1)
     write_json(path, {"words_per_minute": blended, "last_measured": round(measured, 1), "lang": lang, "voice": voice})
 

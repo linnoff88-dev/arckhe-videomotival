@@ -143,7 +143,7 @@ def get_run(run_id: str) -> dict[str, Any]:
 def save_plan(run_id: str, plan: dict[str, Any]) -> dict[str, Any]:
     run_dir = _run_dir(run_id)
     if runner.run_lock(run_dir.name).locked():
-        raise HTTPException(409, "Corrida em execução; espere terminar para editar")
+        raise HTTPException(409, "Corrida em execuçêo; espere terminar para editar")
     try:
         current = load_json(pipeline.scene_plan_path(run_dir))
         current.update({k: v for k, v in plan.items() if k in ("title", "character_bible", "scenes", "title_overlay")})
@@ -160,7 +160,7 @@ def run_stages(run_id: str, body: RunStages) -> dict[str, Any]:
     if bad:
         raise HTTPException(400, f"Etapas desconhecidas: {bad}")
     if runner.run_lock(run_dir.name).locked():
-        raise HTTPException(409, "Corrida já em execução")
+        raise HTTPException(409, "Corrida já em execuçêo")
     only = None
     if body.only is not None:
         only = {int(body.only)} if isinstance(body.only, int) else {int(n) for n in body.only}
@@ -172,11 +172,11 @@ def run_stages(run_id: str, body: RunStages) -> dict[str, Any]:
 def regen(run_id: str, scene: int, body: RegenImage) -> dict[str, Any]:
     run_dir = _run_dir(run_id)
     if runner.run_lock(run_dir.name).locked():
-        raise HTTPException(409, "Corrida em execução")
+        raise HTTPException(409, "Corrida em execuçêo")
     try:
         runner.regen_image(run_dir, scene, body.seed)
     except (PipelineError, StopIteration) as exc:
-        raise HTTPException(400, str(exc) or "Cena não encontrada") from exc
+        raise HTTPException(400, str(exc) or "Cena nêo encontrada") from exc
     return _run_payload(run_dir)
 
 
@@ -185,7 +185,7 @@ def run_file(run_id: str, rel: str):
     run_dir = _run_dir(run_id)
     target = (run_dir / rel).resolve()
     if run_dir.resolve() not in target.parents or not target.is_file():
-        raise HTTPException(404, "Arquivo não encontrado")
+        raise HTTPException(404, "Arquivo nêo encontrado")
     return FileResponse(target)
 
 

@@ -1,8 +1,8 @@
-"""Etapas 4–6 — ffprobe (duração), ffmpeg (cena = imagem + áudio com zoom lento), concat final.
+"""Etapas 4–6 — ffprobe (duraçêo), ffmpeg (cena = imagem + áudio com zoom lento), concat final.
 
 Adaptado do video_pipeline.py do tutorial (skill Codex). Diferenças:
 - título da cena 1 gravado por drawtext (texto exato) em vez de pedir letras ao gerador;
-- portão de duração configurável (warn | strict);
+- portêo de duraçêo configurável (warn | strict);
 - música de fundo opcional na montagem final.
 """
 
@@ -37,15 +37,15 @@ def validate_plan_data(plan: dict[str, Any]) -> list[dict[str, Any]]:
         raise PipelineError("character_bible vazio")
     scenes = plan["scenes"]
     if not isinstance(scenes, list) or not scenes:
-        raise PipelineError("scenes deve ser uma lista não vazia")
+        raise PipelineError("scenes deve ser uma lista nêo vazia")
     for expected, scene in enumerate(scenes, start=1):
         if not isinstance(scene, dict):
-            raise PipelineError(f"Cena {expected} não é um objeto")
+            raise PipelineError(f"Cena {expected} nêo é um objeto")
         missing = [f for f in REQUIRED_SCENE_FIELDS if f not in scene]
         if missing:
             raise PipelineError(f"Cena {expected} sem: {', '.join(missing)}")
         if int(scene["scene_number"]) != expected:
-            raise PipelineError(f"Numeração das cenas precisa ser consecutiva a partir de 1; esperava {expected}, veio {scene['scene_number']}")
+            raise PipelineError(f"Numeraçêo das cenas precisa ser consecutiva a partir de 1; esperava {expected}, veio {scene['scene_number']}")
         for field in REQUIRED_SCENE_FIELDS[1:]:
             if not str(scene[field]).strip():
                 raise PipelineError(f"Cena {expected}: campo {field} vazio")
@@ -62,7 +62,7 @@ def collect_durations(run_dir: Path, scenes: list[dict[str, Any]]) -> list[dict[
         number = int(scene["scene_number"])
         audio = run_dir / "work" / "audio" / f"{number:03d}.mp3"
         if not audio.is_file():
-            raise PipelineError(f"Narração ausente: {audio}")
+            raise PipelineError(f"Narraçêo ausente: {audio}")
         records.append({"scene_number": number, "audio_file": f"work/audio/{number:03d}.mp3", "duration_seconds": round(probe_duration(audio), 6), "words": len(str(scene["narration"]).split())})
     return records
 
@@ -90,9 +90,9 @@ def probe_run(run_dir: Path, settings: Settings, plan: dict[str, Any]) -> dict[s
     write_json(run_dir / "work" / "durations.json", report)
     say(f"[probe] {len(scenes)} narrações: {report['actual_duration_seconds']:.1f}s medidos para alvo de {report['target_duration_seconds']:.0f}s (wpm real {report['measured_words_per_minute']})")
     if not report["within_tolerance"]:
-        message = f"Duração fora da tolerância em {abs(report['difference_seconds']):.1f}s (tolerância ±{report['tolerance_seconds']:.1f}s)"
+        message = f"Duraçêo fora da tolerância em {abs(report['difference_seconds']):.1f}s (tolerância ±{report['tolerance_seconds']:.1f}s)"
         if settings.get("DURATION_GATE").strip().lower() == "strict":
-            raise PipelineError(message + " — DURATION_GATE=strict: revise a narração, refaça o TTS com --force e meça de novo")
+            raise PipelineError(message + " — DURATION_GATE=strict: revise a narraçêo, refaça o TTS com --force e meça de novo")
         say(f"[probe] AVISO: {message} (DURATION_GATE=warn, seguindo)")
     return report
 
@@ -133,7 +133,7 @@ def render_title_png(run_dir: Path, plan: dict[str, Any], settings: Settings) ->
     corta caracteres finais quando há acentos). Tinta escura sobre caixa cor de papel."""
     font_path = settings.get("TITLE_FONT")
     if not Path(font_path).is_file():
-        say(f"[render] fonte {font_path} não encontrada; título da cena 1 desativado")
+        say(f"[render] fonte {font_path} nêo encontrada; título da cena 1 desativado")
         return None
     try:
         from PIL import Image, ImageDraw, ImageFont
@@ -228,7 +228,7 @@ def probe_final_media(path: Path) -> dict[str, Any]:
         raise PipelineError(f"MP4 final com dimensões erradas: {video.get('width')}x{video.get('height')}")
     duration = float(data.get("format", {}).get("duration", 0))
     if duration <= 0:
-        raise PipelineError("MP4 final sem duração positiva")
+        raise PipelineError("MP4 final sem duraçêo positiva")
     return {"duration_seconds": duration, "video": video, "audio": audio}
 
 

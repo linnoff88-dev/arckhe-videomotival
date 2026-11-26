@@ -1,4 +1,4 @@
-"""Etapa 2 — uma narração por cena (work/audio/001.mp3, 002.mp3...).
+"""Etapa 2 — uma narraçêo por cena (work/audio/001.mp3, 002.mp3...).
 
 Providers:
 - inemavox (default): daemon local em :8010, engine chatterbox (clone por ref .wav) ou edge.
@@ -38,7 +38,7 @@ def _inemavox_job(settings: Settings, text: str, lang: str, voice: str, engine: 
     if engine.startswith("chatterbox"):
         ref = voice_ref_path(settings, voice)
         if ref is None:
-            raise PipelineError(f"Voz '{voice}' não encontrada em {settings.get('VOICE_REFS_DIR')} (esperava {voice}.wav)")
+            raise PipelineError(f"Voz '{voice}' nêo encontrada em {settings.get('VOICE_REFS_DIR')} (esperava {voice}.wav)")
         config["ref_audio"] = str(ref)
     elif engine == "edge":
         config["voice"] = voice
@@ -47,7 +47,7 @@ def _inemavox_job(settings: Settings, text: str, lang: str, voice: str, engine: 
     job = http_json(f"{base}/api/jobs/tts", config, timeout=60)
     job_id = job.get("id")
     if not job_id:
-        raise PipelineError(f"inemavox não devolveu id de job: {str(job)[:200]}")
+        raise PipelineError(f"inemavox nêo devolveu id de job: {str(job)[:200]}")
     started = time.time()
     while True:
         time.sleep(2.5)
@@ -92,7 +92,7 @@ def _fish_tts(settings: Settings, text: str) -> bytes:
     return audio
 
 
-# ---------------------------------------------------------------- orquestração
+# ---------------------------------------------------------------- orquestraçêo
 
 
 def check_tts(settings: Settings) -> str:

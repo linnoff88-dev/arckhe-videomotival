@@ -117,10 +117,10 @@
 
     <form id="create" autocomplete="off">
       <label for="topic">Tema do vídeo</label>
-      <input id="topic" required placeholder="Ex.: Pare de esperar a motivação">
+      <input id="topic" required placeholder="Ex.: Pare de esperar a motivaçêo">
       <div class="row">
         <div>
-          <label for="duration">Duração alvo (s)</label>
+          <label for="duration">Duraçêo alvo (s)</label>
           <input id="duration" type="number" min="15" max="900" value="75">
         </div>
         <div>
@@ -143,7 +143,7 @@
       </select>
       <label for="extra">Instruções extras para a história (opcional)</label>
       <textarea id="extra" rows="2" placeholder="Ex.: protagonista mulher, tom leve, terminar com uma pergunta"></textarea>
-      <label for="gate">Duração fora da tolerância</label>
+      <label for="gate">Duraçêo fora da tolerância</label>
       <select id="gate">
         <option value="warn">só avisar e seguir</option>
         <option value="strict">bloquear o render (como no tutorial)</option>
@@ -173,7 +173,7 @@
 const $ = (s, el = document) => el.querySelector(s);
 const state = { runs: [], current: null, run: null, timer: null, dirty: false };
 const STAGE_LABELS = { plan: "Roteiro", tts: "Voz", images: "Ilustrações", render: "Render" };
-const STATUS_LABEL = { created: "criado", planning: "escrevendo…", review: "em revisão", tts: "gerando voz…", images: "gerando imagens…", render: "renderizando…", done: "pronto", failed: "falhou" };
+const STATUS_LABEL = { created: "criado", planning: "escrevendo…", review: "em revisêo", tts: "gerando voz…", images: "gerando imagens…", render: "renderizando…", done: "pronto", failed: "falhou" };
 
 function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2200); }
 async function api(path, opts = {}) {
@@ -248,7 +248,7 @@ function render(run) {
   const canTts = c.scenes > 0 && !busy, canImg = c.scenes > 0 && !busy, canRender = !busy && c.scenes > 0 && c.audio === c.scenes && c.images === c.scenes;
   const measured = run.measured_seconds ? `${run.measured_seconds.toFixed(1)} s medidos` : (run.estimated_seconds ? `~${run.estimated_seconds} s estimados` : "");
   const preserveScroll = main.scrollTop;
-  // não sobrescrever edições em andamento
+  // nêo sobrescrever edições em andamento
   if (state.dirty && !busy) { return; }
   main.innerHTML = `
     <div class="head">
@@ -265,7 +265,7 @@ function render(run) {
     </div>
     ${run.error ? `<div class="error">${esc(run.error)}</div>` : ""}
     <div class="stages">${Object.keys(STAGE_LABELS).map(k => `<div class="stage ${stageClass(run, k)}"><div class="n">${STAGE_LABELS[k]}</div><div class="v">${stageValue(run, k)}</div></div>`).join("")}</div>
-    ${run.final ? `<div class="final"><video controls preload="metadata" src="/api/runs/${encodeURIComponent(run.run_id)}/file/final.mp4?t=${encodeURIComponent(run.updated_at)}"></video><div class="paths">${esc(run.path)}/final.mp4 · <a href="/api/runs/${encodeURIComponent(run.run_id)}/file/final.mp4" download>baixar</a> · <a href="/api/runs/${encodeURIComponent(run.run_id)}/file/work/transcript.md" target="_blank">transcrição</a></div></div>` : ""}
+    ${run.final ? `<div class="final"><video controls preload="metadata" src="/api/runs/${encodeURIComponent(run.run_id)}/file/final.mp4?t=${encodeURIComponent(run.updated_at)}"></video><div class="paths">${esc(run.path)}/final.mp4 · <a href="/api/runs/${encodeURIComponent(run.run_id)}/file/final.mp4" download>baixar</a> · <a href="/api/runs/${encodeURIComponent(run.run_id)}/file/work/transcript.md" target="_blank">transcriçêo</a></div></div>` : ""}
     ${c.scenes ? `
       <div class="bible">
         <label for="f-title">Título (aparece na cena 1)</label>
@@ -274,7 +274,7 @@ function render(run) {
         <textarea id="f-bible" rows="3" ${busy ? "disabled" : ""}>${esc(run.plan.character_bible)}</textarea>
       </div>
       <div id="scenes">${run.scenes.map(s => sceneHtml(run, s, busy)).join("")}</div>
-      <div class="actions"><button id="a-save" class="primary" ${busy ? "disabled" : ""}>Salvar edições do roteiro</button><span class="hint">Depois de editar narração, refaça a voz; depois de editar a descrição, refaça a imagem da cena.</span></div>
+      <div class="actions"><button id="a-save" class="primary" ${busy ? "disabled" : ""}>Salvar edições do roteiro</button><span class="hint">Depois de editar narraçêo, refaça a voz; depois de editar a descriçêo, refaça a imagem da cena.</span></div>
     ` : (run.status === "planning" ? `<div class="empty"><b>Escrevendo a história…</b>o roteirista está montando as cenas.</div>` : "")}
     <details class="log"><summary>Log</summary><pre>${esc(run.log_tail)}</pre></details>
   `;
@@ -295,23 +295,23 @@ function sceneHtml(run, s, busy) {
   return `<div class="scene" data-n="${s.scene_number}">
     <div>
       <div class="img">
-        ${s.image ? `<img src="/api/runs/${id}/file/work/images/${n}.png?t=${stamp}" alt="cena ${s.scene_number}">` : "sem ilustração ainda"}
+        ${s.image ? `<img src="/api/runs/${id}/file/work/images/${n}.png?t=${stamp}" alt="cena ${s.scene_number}">` : "sem ilustraçêo ainda"}
         <span class="num">${s.scene_number}</span>
         ${s.duration_seconds ? `<span class="dur">${s.duration_seconds.toFixed(1)} s</span>` : ""}
       </div>
       ${s.audio ? `<audio controls preload="none" src="/api/runs/${id}/file/work/audio/${n}.mp3?t=${stamp}"></audio>` : ""}
       <div class="tools">
-        <button class="small" data-regen="${s.scene_number}" ${busy ? "disabled" : ""}>Nova ilustração</button>
+        <button class="small" data-regen="${s.scene_number}" ${busy ? "disabled" : ""}>Nova ilustraçêo</button>
         ${s.audio ? `<button class="small" data-retts="${s.scene_number}" ${busy ? "disabled" : ""}>Refazer voz</button>` : ""}
         <span class="seed">seed ${s.image_seed ?? run.plan.image_seed}</span>
       </div>
     </div>
     <div>
-      <label>Narração</label>
+      <label>Narraçêo</label>
       <textarea class="f-narr" rows="3" ${busy ? "disabled" : ""}>${esc(s.narration)}</textarea>
-      <label>Descrição da cena (para o gerador de imagem, em inglês)</label>
+      <label>Descriçêo da cena (para o gerador de imagem, em inglês)</label>
       <textarea class="f-comp" rows="3" ${busy ? "disabled" : ""}>${esc(s.composition || s.image_prompt)}</textarea>
-      <label>Nota para revisão</label>
+      <label>Nota para revisêo</label>
       <input class="f-vis" value="${esc(s.visual_description)}" ${busy ? "disabled" : ""}>
     </div>
   </div>`;
@@ -329,14 +329,14 @@ async function savePlan(silent = false) {
     state.dirty = false;
     if (!silent) toast("Roteiro salvo");
     await refresh(); loadRuns();
-  } catch (e) { alert("Não salvou: " + e.message); }
+  } catch (e) { alert("Nêo salvou: " + e.message); }
 }
 
 async function runStages(stages, force = false, only = null) {
   if (state.dirty) await savePlan(true);
   try {
     if (only) {
-      // refazer só uma cena: apaga o mp3 dela via regen de voz = force na etapa com filtro não exposto; usa force total na cena
+      // refazer só uma cena: apaga o mp3 dela via regen de voz = force na etapa com filtro nêo exposto; usa force total na cena
       await api(`/api/runs/${encodeURIComponent(state.current)}/run`, { method: "POST", body: JSON.stringify({ stages, force: true, only }) });
     } else {
       await api(`/api/runs/${encodeURIComponent(state.current)}/run`, { method: "POST", body: JSON.stringify({ stages, force }) });
@@ -348,7 +348,7 @@ async function runStages(stages, force = false, only = null) {
 
 async function regen(n) {
   if (state.dirty) await savePlan(true);
-  toast(`Gerando nova ilustração da cena ${n}…`);
+  toast(`Gerando nova ilustraçêo da cena ${n}…`);
   try {
     await api(`/api/runs/${encodeURIComponent(state.current)}/scenes/${n}/regen-image`, { method: "POST", body: JSON.stringify({}) });
     await refresh();

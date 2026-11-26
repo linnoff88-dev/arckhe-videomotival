@@ -3,11 +3,11 @@
   check                         verifica ffmpeg, provedores e chaves (sem imprimir segredos)
   create --topic T --duration S [--lang pt] [--auto]   cria a corrida (e, com --auto, faz tudo)
   plan   --run R                gera história + cenas (para em review)
-  tts    --run R [--force]      narração por cena + medição
-  images --run R [--force]      ilustração por cena
+  tts    --run R [--force]      narraçêo por cena + mediçêo
+  images --run R [--force]      ilustraçêo por cena
   render --run R [--music M]    probe + cenas + MP4 final
   build  --run R                tts + images + render
-  recompose --run R             após editar scenes.json à mão
+  recompose --run R             após editar scenes.json à mêo
   regen-image --run R --scene N [--seed S]
   status --run R
   list
@@ -98,7 +98,7 @@ def cmd_status(args: argparse.Namespace) -> None:
 def cmd_list(args: argparse.Namespace) -> None:
     for meta in runner.list_runs(Settings()):
         c = meta["counts"]
-        say(f"{meta['run_id']:<50} {meta.get('status', '?'):<9} cenas={c['scenes']} a={c['audio']} i={c['images']} v={c['video']} final={'sim' if c['final'] else 'não'}")
+        say(f"{meta['run_id']:<50} {meta.get('status', '?'):<9} cenas={c['scenes']} a={c['audio']} i={c['images']} v={c['video']} final={'sim' if c['final'] else 'nêo'}")
 
 
 def cmd_voices(args: argparse.Namespace) -> None:
@@ -125,7 +125,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--lang", default=None, help="pt | en | es ...")
     p.add_argument("--run-id")
     p.add_argument("--seed", type=int)
-    p.add_argument("--auto", action="store_true", help="roda tudo sem parar para revisão")
+    p.add_argument("--auto", action="store_true", help="roda tudo sem parar para revisêo")
     p.add_argument("--no-plan", action="store_true", help="só cria a pasta (para STORY_PROVIDER=manual)")
     p.add_argument("--music", help="arquivo de música de fundo (opcional)")
     add_common(p); p.set_defaults(func=cmd_create)
@@ -141,7 +141,7 @@ def build_parser() -> argparse.ArgumentParser:
             p.add_argument("--extra", help="instruções adicionais para o roteirista")
         p.set_defaults(func=cmd_stage(stage))
 
-    p = sub.add_parser("recompose", help="após editar work/scenes.json à mão: recompõe prompts e invalida cenas alteradas"); p.add_argument("--run", required=True); p.set_defaults(func=cmd_recompose)
+    p = sub.add_parser("recompose", help="após editar work/scenes.json à mêo: recompõe prompts e invalida cenas alteradas"); p.add_argument("--run", required=True); p.set_defaults(func=cmd_recompose)
     p = sub.add_parser("regen-image"); p.add_argument("--run", required=True); p.add_argument("--scene", required=True, type=int); p.add_argument("--seed", type=int); p.set_defaults(func=cmd_regen)
     p = sub.add_parser("status"); p.add_argument("--run", required=True); p.set_defaults(func=cmd_status)
     p = sub.add_parser("list"); p.set_defaults(func=cmd_list)

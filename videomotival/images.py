@@ -1,4 +1,4 @@
-"""Etapa 3 — uma ilustração 16:9 por cena (work/images/001.png...).
+"""Etapa 3 — uma ilustraçêo 16:9 por cena (work/images/001.png...).
 
 Provider: inemaimg (flux2-klein na GPU local, :8000). Consistência do personagem =
 bíblia verbatim em todo prompt + seed fixa da corrida. Cenas ruins: `regen` com outra seed.
@@ -19,7 +19,7 @@ ProgressFn = Callable[[int, int, str], None]
 
 def _png_size(data: bytes) -> tuple[int, int]:
     if len(data) < 24 or data[:8] != b"\x89PNG\r\n\x1a\n":
-        raise PipelineError("Resposta do gerador não é um PNG válido")
+        raise PipelineError("Resposta do gerador nêo é um PNG válido")
     width, height = struct.unpack(">II", data[16:24])
     return width, height
 
